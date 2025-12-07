@@ -1,8 +1,9 @@
-import React from 'react'
+import prisma from '@/lib/db'
 
-function Home() {
+async function Home() {
+  const users = await prisma.user.findMany();
   return (
-    <div className='text-red-400'>Home</div>
+    <div className='text-red-400 flex items-center justify-center'>{JSON.stringify(users)}</div>
   )
 }
 
