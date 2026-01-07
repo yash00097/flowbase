@@ -19,27 +19,42 @@ export const execute = inngest.createFunction(
       "gemini-generate-text",
       generateText,
       {
-        model: google('gemini-2.5-flash') as LanguageModel,
+        model: google('gemini-2.5-flash') ,
         system:"You are a helpful assistant that helps users with their queries.",
         prompt: "what is 2+2",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
     const { steps: openaiSteps } = await step.ai.wrap(
       "openai-generate-text",
       generateText,
       {
-        model: openai('gpt-4') as unknown as LanguageModel,
+        model: openai('gpt-4') ,
         system:"You are a helpful assistant that helps users with their queries.",
         prompt: "what is 2+2",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
     const { steps: anthropicSteps } = await step.ai.wrap(
       "anthropic-generate-text",
       generateText,
       {
-        model: anthropic('claude-opus-4-0') as unknown as LanguageModel,
+        model: anthropic('claude-opus-4-0') ,
         system:"You are a helpful assistant that helps users with their queries.",
         prompt: "what is 2+2",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
     return { geminiSteps, openaiSteps, anthropicSteps };
