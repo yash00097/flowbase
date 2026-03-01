@@ -11,9 +11,9 @@ Handlebars.registerHelper("json", (context) => {
 });
 
 type HttpRequestData = {
-  variableName: string;
-  endpoint: string;
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  variableName?: string;
+  endpoint?: string;
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: string;
 }
 
@@ -31,38 +31,38 @@ export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     }),
   );
 
-  if(!data.endpoint) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      }),
-    );
-    throw new NonRetriableError("HTTP Request node: Missing endpoint configuration.");
-  }
-  if(!data.variableName) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      }),
-    );
-    throw new NonRetriableError("HTTP Request node: Missing variable name configuration.");
-  }
-  if(!data.method) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      }),
-    );
-    throw new NonRetriableError("HTTP Request node: Missing method configuration.");
-  }
   try {
     const result = await step.run("http_request", async () => {
+      if(!data.endpoint) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          }),
+        );
+        throw new NonRetriableError("HTTP Request node: Missing endpoint configuration.");
+      }
+      if(!data.variableName) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          }),
+        );
+        throw new NonRetriableError("HTTP Request node: Missing variable name configuration.");
+      }
+      if(!data.method) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          }),
+        );
+        throw new NonRetriableError("HTTP Request node: Missing method configuration.");
+      }
+
       const endpoint = Handlebars.compile(data.endpoint)(context);
       const method = data.method;
-
       const options: KyOptions = { method };
 
       if(["POST", "PUT", "PATCH"].includes(method) ) {
