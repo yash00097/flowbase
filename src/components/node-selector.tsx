@@ -50,6 +50,24 @@ const excutionNodes: NodeTypeOption[] = [
     description: "Make an HTTP request to any API endpoint. Great for integrating with third-party services.",
     icon: GlobeIcon,
   },
+  {
+    type: NodeType.GEMINI,
+    label: "Gemini",
+    description: "Uses Google's Gemini API to generate text.",
+    icon: "/logos/gemini.svg",
+  },
+  {
+    type: NodeType.OPENAI,
+    label: "OpenAI",
+    description: "Uses OpenAI's API to generate text.",
+    icon: "/logos/openai.svg",
+  },
+  {
+    type: NodeType.ANTHROPIC,
+    label: "Anthropic",
+    description: "Uses Anthropic's API to generate text.",
+    icon: "/logos/anthropic.svg",
+  },
 ];
 
 interface NodeSelectorProps {
