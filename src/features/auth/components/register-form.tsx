@@ -40,6 +40,33 @@ export function RegisterForm() {
         },
     });
 
+    const signInGithub = async () => {
+        await authClient.signIn.social({
+            provider: "github",
+        },{
+            onSuccess: () => {
+                toast.success("Logged in successfully!");
+                router.push("/");
+            },
+            onError: () => {
+                toast.error("Failed to login with Github");
+            },
+        })
+    }
+    const signInGoogle = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        },{
+            onSuccess: () => {
+                toast.success("Logged in successfully!");
+                router.push("/");
+            },
+            onError: () => {
+                toast.error("Failed to login with Google");
+            },
+        })
+    }
+
     const onSubmit = async (values: RegisterFormValues) => {
         await authClient.signUp.email(
         {
@@ -74,19 +101,25 @@ export function RegisterForm() {
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <div className="grid gap-6">
                             <div className="flex flex-col gap-4">
-                                <Button variant="outline" 
-                                        className="w-full"
-                                        type="button" 
-                                        disabled={isPending}>
+                                <Button 
+                                    variant="outline" 
+                                    className="w-full"
+                                    onClick={signInGithub}
+                                    type="button" 
+                                    disabled={isPending}
+                                >
                                     <Image src="/logos/github.svg" width={20} height={20} alt="Github" />
-                                    {isPending ? "Logging in..." : "Continue with Github"}
+                                    "Continue with Github"
                                 </Button>
-                                <Button variant="outline" 
-                                        className="w-full"
-                                        type="button" 
-                                        disabled={isPending}>
+                                <Button 
+                                    variant="outline" 
+                                    className="w-full"
+                                    onClick={signInGoogle}
+                                    type="button" 
+                                    disabled={isPending}
+                                >
                                     <Image src="/logos/google.svg" width={20} height={20} alt="Google" />
-                                    {isPending ? "Logging in..." : "Continue with Google"}
+                                    "Continue with Google"
                                 </Button>
                             </div>
                             <div className="grid gap-6">
