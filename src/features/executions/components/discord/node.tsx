@@ -3,36 +3,36 @@
 import { Node, NodeProps, useReactFlow } from "@xyflow/react";
 import { memo, useState } from "react";
 import { BaseExecutionNode } from "../base-execution-node";
-import { AnthropicDialog, AnthropicFormValues } from "./dialog";
+import { DiscordDialog, DiscordFormValues } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";
-import { ANTHROPIC_CHANNEL_NAME } from "@/inngest/channels/anthropic";
-import { fetchAnthropicRealtimeToken } from "./actions";
+import { fetchDiscordRealtimeToken } from "./actions";
+import { DISCORD_CHANNEL_NAME } from "@/inngest/channels/discord";
 
-type AnthropicNodeData = {
-  variableName?: string;
-  credentialId?: string;
-  systemPrompt?: string;
-  userPrompt?: string;
+type DiscordNodeData = {
+    variableName?: string;
+    webhookUrl?: string;
+    content?: string;
+    username?: string;
 };
 
-type AnthropicNodeType = Node<AnthropicNodeData>;
+type DiscordNodeType = Node<DiscordNodeData>;
 
-export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
+export const DiscordNode = memo((props: NodeProps<DiscordNodeType>) => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { setNodes } = useReactFlow();
 
   const NodeStatus = useNodeStatus({
     nodeId: props.id,
-    channel: ANTHROPIC_CHANNEL_NAME,
+    channel: DISCORD_CHANNEL_NAME,
     topic: "status",
-    refreshToken: fetchAnthropicRealtimeToken,
+    refreshToken: fetchDiscordRealtimeToken,
   });
   const handleOpenSettings = () => {
     setDialogOpen(true);
   }
 
-  const handleSubmit = (values: AnthropicFormValues) => {
+  const handleSubmit = (values: DiscordFormValues) => {
     setNodes((nodes) =>
       nodes.map((node) => {
         if (node.id === props.id) {
@@ -51,14 +51,14 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
   }
 
   const nodeData = props.data;
-  const description = nodeData?.userPrompt
-    ? `claude-sonnet-4-5: ${nodeData.userPrompt.slice(0, 50)}...`
+  const description = nodeData?.content
+    ? `Send: ${nodeData.content.slice(0, 50)}...`
     : "Not configured";
 
   
   return (
     <>
-        <AnthropicDialog 
+        <DiscordDialog 
           open={dialogOpen} 
           onOpenChange={setDialogOpen}
           onSubmit={handleSubmit}
@@ -67,8 +67,8 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
         <BaseExecutionNode
             {...props}
             id = {props.id}
-            icon="/logos/anthropic.svg"
-            name="Anthropic"
+            icon="/logos/discord.svg"
+            name="Discord"
             status={NodeStatus}
             description={description}
             onSettings={handleOpenSettings}
@@ -78,4 +78,4 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
   );
 });
 
-AnthropicNode.displayName = "AnthropicNode";
+DiscordNode.displayName = "DiscordNode";

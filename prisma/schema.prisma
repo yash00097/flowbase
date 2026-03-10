@@ -121,6 +121,8 @@ enum NodeType {
   GEMINI
   OPENAI
   ANTHROPIC
+  DISCORD
+  WHATSAPP
 }
 
 model Node{
