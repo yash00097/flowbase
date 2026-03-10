@@ -5,6 +5,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import Handlebars from "handlebars";
 import { openaiChannel } from "@/inngest/channels/openai";
 import prisma from "@/lib/db";
+import { decrypt } from "@/lib/encryption";
 
 Handlebars.registerHelper("json", (context) => {
   const jsonString = JSON.stringify(context, null, 2);
@@ -85,7 +86,9 @@ export const openaiExecutor: NodeExecutor<OpenAiData> = async ({
     throw new NonRetriableError("OpenAI node: Credential is missing");
   }
 
-  const openai = createOpenAI({ apiKey: credential.value });
+  const openai = createOpenAI({ 
+    apiKey: decrypt(credential.value),  
+  });
 
   try {
     const { steps } = await step.ai.wrap(
