@@ -70,7 +70,7 @@ export function RegisterForm() {
     const onSubmit = async (values: RegisterFormValues) => {
         await authClient.signUp.email(
         {
-            name: values.email,
+            name: values.email.split("@")[0],
             email: values.email,
             password: values.password,
             callbackURL:"/"
