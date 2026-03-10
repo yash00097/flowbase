@@ -68,6 +68,18 @@ const excutionNodes: NodeTypeOption[] = [
     description: "Uses Anthropic's API to generate text.",
     icon: "/logos/anthropic.svg",
   },
+  {
+    type: NodeType.DISCORD,
+    label: "Discord",
+    description: "Send a message to a Discord.",
+    icon: "/logos/discord.svg",
+  },
+  {
+    type: NodeType.WHATSAPP,
+    label: "Whatsapp",
+    description: "Send a message to a Whatsapp.",
+    icon: "/logos/whatsapp.svg",
+  },
 ];
 
 interface NodeSelectorProps {

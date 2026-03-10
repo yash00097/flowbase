@@ -3,36 +3,37 @@
 import { Node, NodeProps, useReactFlow } from "@xyflow/react";
 import { memo, useState } from "react";
 import { BaseExecutionNode } from "../base-execution-node";
-import { AnthropicDialog, AnthropicFormValues } from "./dialog";
+import { WhatsappDialog, WhatsappFormValues } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";
-import { ANTHROPIC_CHANNEL_NAME } from "@/inngest/channels/anthropic";
-import { fetchAnthropicRealtimeToken } from "./actions";
+import { fetchWhatsappRealtimeToken } from "./actions";
+import { WHATSAPP_CHANNEL_NAME } from "@/inngest/channels/whatsapp";
 
-type AnthropicNodeData = {
-  variableName?: string;
-  credentialId?: string;
-  systemPrompt?: string;
-  userPrompt?: string;
+type WhatsappNodeData = {
+    variableName?: string;
+    phoneNumberId?: string;
+    accessToken?: string;
+    recipientPhone?: string;
+    content?: string;
 };
 
-type AnthropicNodeType = Node<AnthropicNodeData>;
+type WhatsappNodeType = Node<WhatsappNodeData>;
 
-export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
+export const WhatsappNode = memo((props: NodeProps<WhatsappNodeType>) => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { setNodes } = useReactFlow();
 
   const NodeStatus = useNodeStatus({
     nodeId: props.id,
-    channel: ANTHROPIC_CHANNEL_NAME,
+    channel: WHATSAPP_CHANNEL_NAME,
     topic: "status",
-    refreshToken: fetchAnthropicRealtimeToken,
+    refreshToken: fetchWhatsappRealtimeToken,
   });
   const handleOpenSettings = () => {
     setDialogOpen(true);
   }
 
-  const handleSubmit = (values: AnthropicFormValues) => {
+  const handleSubmit = (values: WhatsappFormValues) => {
     setNodes((nodes) =>
       nodes.map((node) => {
         if (node.id === props.id) {
@@ -51,14 +52,14 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
   }
 
   const nodeData = props.data;
-  const description = nodeData?.userPrompt
-    ? `claude-sonnet-4-5: ${nodeData.userPrompt.slice(0, 50)}...`
+  const description = nodeData?.content
+    ? `Send: ${nodeData.content.slice(0, 50)}...`
     : "Not configured";
 
   
   return (
     <>
-        <AnthropicDialog 
+        <WhatsappDialog 
           open={dialogOpen} 
           onOpenChange={setDialogOpen}
           onSubmit={handleSubmit}
@@ -67,8 +68,8 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
         <BaseExecutionNode
             {...props}
             id = {props.id}
-            icon="/logos/anthropic.svg"
-            name="Anthropic"
+            icon="/logos/whatsapp.svg"
+            name="Whatsapp"
             status={NodeStatus}
             description={description}
             onSettings={handleOpenSettings}
@@ -78,4 +79,4 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
   );
 });
 
-AnthropicNode.displayName = "AnthropicNode";
+WhatsappNode.displayName = "WhatsappNode";
