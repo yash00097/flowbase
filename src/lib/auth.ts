@@ -5,6 +5,11 @@ import prisma from "./db";
 import { polarClient } from "./polar";
 
 export const auth = betterAuth({
+    trustedOrigins: [
+        "https://flow-base.dev",
+        "https://www.flow-base.dev",
+        "https://flowbase-pink.vercel.app",
+    ],
     database: prismaAdapter(prisma,{
         provider: "postgresql",
     }),
