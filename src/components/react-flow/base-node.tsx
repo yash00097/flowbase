@@ -1,15 +1,16 @@
-import type { ComponentProps, HTMLAttributes } from "react";
+import { forwardRef, type ComponentProps, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { NodeStatus } from "./node-status-indicator";
 import { CheckCircle2Icon, Loader2Icon, XCircleIcon } from "lucide-react";
 
-interface BaseNodeProps extends HTMLAttributes<HTMLDivElement> {
+export interface BaseNodeProps extends HTMLAttributes<HTMLDivElement> {
   status?: NodeStatus;
 }
 
-export function BaseNode({ className, status, ...props }: BaseNodeProps) {
+export const BaseNode = forwardRef<HTMLDivElement, BaseNodeProps>(({ className, status, ...props }, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         "bg-card text-card-foreground relative rounded-sm border-muted-foreground border hover:bg-accent",
         "hover:ring-1",
@@ -30,7 +31,7 @@ export function BaseNode({ className, status, ...props }: BaseNodeProps) {
       )}
     </div>
   );
-}
+});
 
 /**
  * A container for a consistent header layout intended to be used inside the
