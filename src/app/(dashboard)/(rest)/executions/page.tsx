@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ExecutionsContainer, ExecutionsError, ExecutionsList, ExecutionsLoading } from "@/features/executions/components/executions";
 import { executionsParamsLoader } from "@/features/executions/server/params-loader";
 import { prefetchExecutions } from "@/features/executions/server/prefetch";
@@ -6,6 +7,11 @@ import { HydrateClient } from "@/trpc/server";
 import { SearchParams } from "nuqs";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+
+export const metadata: Metadata = {
+  title: "executions",
+};
+
 
 type Props = {
     searchParams: Promise<SearchParams>;

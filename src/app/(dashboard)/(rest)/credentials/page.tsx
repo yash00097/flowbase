@@ -6,6 +6,11 @@ import { HydrateClient } from "@/trpc/server";
 import { SearchParams } from "nuqs";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "credentials",
+};
 
 type Props = {
     searchParams: Promise<SearchParams>;
