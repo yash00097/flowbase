@@ -21,8 +21,10 @@ export const metadata: Metadata = {
     default: "Flowbase",
     template: "Flowbase | %s",
   },
-  description:
-    "Flowbase is a workflow automation platform for building, running, and scaling app and AI automations.",
+  description: "Flowbase is a workflow automation platform for building, running, and scaling app and AI automations.",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/logos/logo.svg",
     shortcut: "/logos/logo.svg",

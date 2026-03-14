@@ -361,7 +361,6 @@ const Page = async () => {
                 alt="Flowbase"
                 width={36}
                 height={36}
-                className="rounded-lg"
               />
               <span className="fb-display text-lg font-700 text-white tracking-tight" style={{ fontWeight: 700 }}>
                 flowbase
