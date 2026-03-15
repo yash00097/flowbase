@@ -129,8 +129,12 @@ export const SlackDialog = ({
                                             />
                                         </FormControl>
                                         <FormDescription>
-                                            Get this from Slack: Apps → Incoming Webhooks
+                                            Get this from Slack: Workspace Settings → Workflows → Webhooks
                                         </FormDescription>
+                                        <FormDescription>
+                                            Make sure the "key" is "content"
+                                        </FormDescription>
+                                      
                                     <FormMessage />
                                 </FormItem>
                             )}

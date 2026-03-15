@@ -58,7 +58,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
 
       await ky.post(data.webhookUrl, {
         json: {
-          text: content.slice(0, 40000),
+          content: content.slice(0, 40000),
         },
       });
 
