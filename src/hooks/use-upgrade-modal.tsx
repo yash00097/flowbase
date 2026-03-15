@@ -5,10 +5,12 @@ import { UpgradeModal } from "@/components/upgrade-modal";
 
 export const useUpgradeModal = () => {
   const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
   const handleError = (error: unknown) => {
     if (error instanceof TRPCClientError) {
       if (error.data?.code === "FORBIDDEN") {
+        setErrorMessage(error.message);
         setOpen(true);
         return true;
       }
@@ -19,6 +21,7 @@ export const useUpgradeModal = () => {
   const modal = <UpgradeModal
                     open={open}
                     onOpenChange={setOpen}
+                    message={errorMessage}
                 />
 
   return {

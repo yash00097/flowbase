@@ -1,5 +1,7 @@
 import { auth } from '@/lib/auth';
 import { polarClient } from '@/lib/polar';
+import prisma from '@/lib/db';
+import { FREE_TIER_LIMITS } from '@/config/constants';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { headers } from 'next/headers';
 import { cache } from 'react';
@@ -54,5 +56,74 @@ export const premiumProcedure = protectedProcedure.use(
     }
 
     return next({ ctx:{...ctx, customer} });
+  }
+);
+
+// Helper to check if user has an active Polar subscription
+async function hasActiveSubscription(userId: string): Promise<boolean> {
+  try {
+    const customer = await polarClient.customers.getStateExternal({
+      externalId: userId,
+    });
+    return !!(customer.activeSubscriptions && customer.activeSubscriptions.length > 0);
+  } catch {
+    return false;
+  }
+}
+
+// Procedure for workflow creation — free users limited to 3 workflows
+export const workflowCreateProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const isPro = await hasActiveSubscription(ctx.auth.user.id);
+
+    if (!isPro) {
+      const workflowCount = await prisma.workflow.count({
+        where: { userId: ctx.auth.user.id },
+      });
+
+      if (workflowCount >= FREE_TIER_LIMITS.workflows) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: `Can't create more than ${FREE_TIER_LIMITS.workflows} workflows on the free plan. Please upgrade to Pro for unlimited workflows.`,
+        });
+      }
+    }
+
+    return next({ ctx });
+  }
+);
+
+// Procedure for workflow execution — free users limited to 50 executions/month
+export const executeWorkflowProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const isPro = await hasActiveSubscription(ctx.auth.user.id);
+
+    if (!isPro) {
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+      const executionCount = await prisma.execution.count({
+        where: {
+          startedAt: { gte: startOfMonth },
+          workflow: { userId: ctx.auth.user.id },
+        },
+      });
+
+      if (executionCount >= FREE_TIER_LIMITS.executionsPerMonth) {
+        const resetDate = startOfNextMonth.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        });
+
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: `Monthly execution limit reached (${FREE_TIER_LIMITS.executionsPerMonth}/${FREE_TIER_LIMITS.executionsPerMonth}). Resets on ${resetDate}. Please upgrade to Pro for unlimited executions.`,
+        });
+      }
+    }
+
+    return next({ ctx });
   }
 );
