@@ -124,6 +124,7 @@ enum NodeType {
   ANTHROPIC
   DISCORD
   WHATSAPP
+  SLACK
 }
 
 model Node{
