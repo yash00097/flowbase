@@ -10,6 +10,7 @@ import { anthropicExecutor } from "../components/anthropic/executor";
 import { discordExecutor } from "../components/discord/executor";
 import { whatsappExecutor } from "../components/whatsapp/executor";
 import { slackExecutor } from "../components/slack/executor";
+import { telegramExecutor } from "../components/telegram/executor";
 
 export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.INITIAL]: manualTriggerExecutor,
@@ -23,6 +24,7 @@ export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.DISCORD]: discordExecutor,
     [NodeType.WHATSAPP]: whatsappExecutor,
     [NodeType.SLACK]: slackExecutor,
+    [NodeType.TELEGRAM]: telegramExecutor,
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

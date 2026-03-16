@@ -61,6 +61,11 @@ const credentialTypeOptions = [
         label: "Gemini",
         value: CredentialType.GEMINI,
         logo: "/logos/gemini.svg",
+    },
+    {
+        label: "Telegram",
+        value: CredentialType.TELEGRAM,
+        logo: "/logos/telegram.svg",
     }
 ];
 
@@ -89,6 +94,8 @@ export const CredentialForm = ({ initialData }: CredentialFormProps) => {
             value:"",
         }
     });
+
+    const type = form.watch("type");
 
     const onSubmit = async (values: FormValues) => {
         if (isEdit && initialData?.id) {
@@ -135,7 +142,7 @@ export const CredentialForm = ({ initialData }: CredentialFormProps) => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="My API Key" {...field} />
+                                        <Input placeholder={type === CredentialType.TELEGRAM ? "mybot" : "My API Key"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -184,11 +191,11 @@ export const CredentialForm = ({ initialData }: CredentialFormProps) => {
                             name="value"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>API Key</FormLabel>
+                                    <FormLabel>{type === CredentialType.TELEGRAM ? "Bot Token" : "API Key"}</FormLabel>
                                     <FormControl>
                                         <Input 
                                             type="password" 
-                                            placeholder="sk-..." 
+                                            placeholder={type === CredentialType.TELEGRAM ? "123456789:ABC..." : "sk-..."} 
                                             {...field} 
                                         />
                                     </FormControl>

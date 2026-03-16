@@ -97,6 +97,7 @@ enum CredentialType {
   GEMINI
   OPENAI
   ANTHROPIC
+  TELEGRAM
 }
 
 model Workflow {
@@ -125,6 +126,7 @@ enum NodeType {
   DISCORD
   WHATSAPP
   SLACK
+  TELEGRAM
 }
 
 model Node{
