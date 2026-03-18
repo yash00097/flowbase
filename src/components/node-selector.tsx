@@ -54,6 +54,12 @@ const triggerNodes: NodeTypeOption[] = [
     description: "Runs the flow when a Stripe event is captured.",
     icon: "/logos/stripe.svg",
   },
+  {
+    type: NodeType.WEBHOOK_TRIGGER,
+    label: "Webhook Trigger",
+    description: "Runs the flow when a webhook is received.",
+    icon: "/logos/webhook.svg",
+  },
 ];
 
 const executionNodes: NodeTypeOption[] = [

@@ -127,6 +127,7 @@ enum NodeType {
   WHATSAPP
   SLACK
   TELEGRAM
+  WEBHOOK_TRIGGER
 }
 
 model Node{
@@ -146,7 +147,34 @@ model Node{
 
   credentialId String?
   credential Credential? @relation(fields: [credentialId], references: [id])
+
+  webhookConfig WebhookConfig?
 }
+
+enum WebhookStatus {
+  idle
+  listening
+  active
+}
+
+model WebhookConfig {
+  id             String        @id @default(cuid())
+  nodeId         String        @unique
+  node           Node          @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  webhookId      String        @unique @default(uuid())
+  method         String        @default("POST")
+  authType       String        @default("none")
+  authConfig     Json?
+  responseMode   String        @default("immediately")
+  responseCode   Int           @default(200)
+  responseBody   String?
+  allowedOrigins String        @default("*")
+  status         WebhookStatus @default(idle)
+  lastPayload    Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
 
 model Connection{
   id String @id @default(cuid())
