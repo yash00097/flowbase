@@ -11,6 +11,7 @@ import { discordExecutor } from "../components/discord/executor";
 import { whatsappExecutor } from "../components/whatsapp/executor";
 import { slackExecutor } from "../components/slack/executor";
 import { telegramExecutor } from "../components/telegram/executor";
+import { webhookTriggerExecutor } from "@/features/triggers/components/webhook-trigger/executor";
 
 export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.INITIAL]: manualTriggerExecutor,
@@ -25,6 +26,7 @@ export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.WHATSAPP]: whatsappExecutor,
     [NodeType.SLACK]: slackExecutor,
     [NodeType.TELEGRAM]: telegramExecutor,
+    [NodeType.WEBHOOK_TRIGGER]: webhookTriggerExecutor,
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

@@ -10,6 +10,7 @@ import { WhatsappNode } from "@/features/executions/components/whatsapp/node";
 import { GoogleFormTriggerNode } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
+import { webhookTriggerNode } from "@/features/triggers/components/webhook-trigger/node";
 import { NodeType } from "@/generated/prisma";
 import type { NodeTypes } from "@xyflow/react";
 
@@ -26,6 +27,7 @@ export const nodeComponents = {
     [NodeType.WHATSAPP]: WhatsappNode,
     [NodeType.SLACK]: SlackNode,
     [NodeType.TELEGRAM]: TelegramNode,
+    [NodeType.WEBHOOK_TRIGGER]: webhookTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeTypes = keyof typeof nodeComponents;
