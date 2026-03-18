@@ -29,11 +29,14 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
 
     const {
         data: config,
-        isLoading,
         error: configError,
     } = useQuery({
         ...trpc.webhooks.getWebhookConfig.queryOptions({ nodeId }),
         enabled: open,
+        // Do not keep retrying "Node not found" for unsaved nodes.
+        retry: false,
+        staleTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
     });
 
     const updateConfig = useMutation(trpc.webhooks.updateWebhookConfig.mutationOptions({
@@ -67,6 +70,8 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
     const { data: testPayload } = useQuery({
         ...trpc.webhooks.pollTestEvent.queryOptions({ nodeId }),
         enabled: open && Boolean(config?.webhookId),
+        retry: false,
+        refetchOnWindowFocus: false,
         refetchInterval: config && config.status === 'listening' ? 2000 : false,
     });
 
@@ -88,13 +93,13 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
     }, [config]);
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const webhookToken = config?.webhookId ?? nodeId;
-    const webhookUrl = `${baseUrl}/api/webhook/${webhookToken}`;
-    const canUseWebhookUrl = Boolean(webhookToken);
-    const hasPersistedWebhookConfig = Boolean(config?.webhookId);
+    const persistedWebhookId = config?.webhookId ?? null;
+    const hasPersistedWebhookConfig = Boolean(persistedWebhookId);
+    const webhookUrl = persistedWebhookId ? `${baseUrl}/api/webhook/${persistedWebhookId}` : "";
+    const canUseWebhookUrl = Boolean(webhookUrl);
     const saveFirstMessage = configError?.message.includes("Node not found")
-        ? "URL is ready. Save the workflow to activate webhook configuration and testing."
-        : "Webhook URL will appear after configuration is ready.";
+        ? "Save the workflow first to generate webhook URL."
+        : "Webhook URL will be generated after saving the workflow.";
 
     const copyToClipboard = async () => {
         if (!canUseWebhookUrl) {
@@ -133,9 +138,6 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
                     </DialogDescription>
                 </DialogHeader>
 
-                {isLoading ? (
-                    <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>
-                ) : (
                 <div className="space-y-6 py-4">
                     {/* URL */}
                     <div className="space-y-2">
@@ -143,6 +145,7 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
                         <div className="flex gap-2">
                             <Input
                                 value={webhookUrl}
+                                placeholder={saveFirstMessage}
                                 readOnly
                                 className="font-mono text-sm"
                             />
@@ -318,7 +321,6 @@ export const WebhookTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
                         </Button>
                     </div>
                 </div>
-                )}
             </DialogContent>
         </Dialog>
     );
