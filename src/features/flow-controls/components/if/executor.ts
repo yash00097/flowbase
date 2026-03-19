@@ -6,13 +6,12 @@ import { ifChannel } from "@/inngest/channels/if";
 
 Handlebars.registerHelper("json", (context) => {
   const jsonString = JSON.stringify(context, null, 2);
-  const SafeString = new Handlebars.SafeString(jsonString);
-  return SafeString;
+  return new Handlebars.SafeString(jsonString);
 });
 
 type IfData = {
   condition?: string;
-}
+};
 
 export const ifExecutor: NodeExecutor<IfData> = async ({
   data,
@@ -33,22 +32,23 @@ export const ifExecutor: NodeExecutor<IfData> = async ({
       ifChannel().status({
         nodeId,
         status: "error",
-      })
+      }),
     );
     throw new NonRetriableError("If node: Condition is missing");
   }
 
+  // Resolve any {{variables}} in the condition string against the current context
   const rawCondition = Handlebars.compile(data.condition)(context);
   const evaluatedExpression = decode(rawCondition);
 
   try {
     const result = await step.run("if-condition-evaluation", async () => {
-      // Evaluate the condition expression safely
-      const conditionResult = new Function('"use strict";return (' + evaluatedExpression + ')')();
-      
-      const activeHandle = conditionResult ? "source-true" : "source-false";
+      // eslint-disable-next-line no-new-func
+      const conditionResult = new Function(
+        '"use strict"; return (' + evaluatedExpression + ")",
+      )() as unknown;
 
-      // We attach whether it succeeded to context if we want, but basically we return the identical context
+      const activeHandle = conditionResult ? "source-true" : "source-false";
       return { context, activeHandle };
     });
 
@@ -59,16 +59,16 @@ export const ifExecutor: NodeExecutor<IfData> = async ({
       }),
     );
 
-    // The IF node won't alter the context, it just routes execution by setting activeHandle
-    // Note: NodeExecutor type needs to be updated to support { context, activeHandle } return type soon.
-    return result as any; 
+    return result;
   } catch (error) {
-      await publish(
-        ifChannel().status({
-          nodeId,
-          status: "error",
-        }),
-      );
-      throw new NonRetriableError(`If node evaluation failed: ${error instanceof Error ? error.message : "Unknown error"}`);
-    }
+    await publish(
+      ifChannel().status({
+        nodeId,
+        status: "error",
+      }),
+    );
+    throw new NonRetriableError(
+      `If node evaluation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
+  }
 };
