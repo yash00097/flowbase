@@ -93,7 +93,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
       }),
     );
 
-    return result;
+    return { context: result, activeHandle: "source-1" };
   } catch (error) {
       await publish(
         discordChannel().status({

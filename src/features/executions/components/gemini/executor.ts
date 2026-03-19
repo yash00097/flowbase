@@ -119,8 +119,11 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
     );
 
     return {
-      ...context,
-      [data.variableName]: { text }
+      context: {
+        ...context,
+        [data.variableName]: { text }
+      },
+      activeHandle: "source-1",
     }
   } catch (error) {
       await publish(

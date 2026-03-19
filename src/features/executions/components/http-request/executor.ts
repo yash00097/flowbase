@@ -101,7 +101,7 @@ export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
       };
     });
 
-    return result;
+    return { context: result, activeHandle: "source-1" };
   } catch (error) {
       await publish(
         httpRequestChannel().status({

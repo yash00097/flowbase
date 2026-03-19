@@ -26,5 +26,5 @@ export const googleFormTriggerExecutor: NodeExecutor<GoogleFormTriggerData> = as
     }),
   );
 
-  return result;
+  return { context: result, activeHandle: "source-1" };
 };

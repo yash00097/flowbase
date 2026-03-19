@@ -12,6 +12,7 @@ import { whatsappExecutor } from "../components/whatsapp/executor";
 import { slackExecutor } from "../components/slack/executor";
 import { telegramExecutor } from "../components/telegram/executor";
 import { webhookTriggerExecutor } from "@/features/triggers/components/webhook-trigger/executor";
+import { ifExecutor } from "@/features/flow-controls/components/if/executor";
 
 export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.INITIAL]: manualTriggerExecutor,
@@ -27,6 +28,7 @@ export const executorRegistry : Record<NodeType , NodeExecutor> = {
     [NodeType.SLACK]: slackExecutor,
     [NodeType.TELEGRAM]: telegramExecutor,
     [NodeType.WEBHOOK_TRIGGER]: webhookTriggerExecutor,
+    [NodeType.IF]: ifExecutor,
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

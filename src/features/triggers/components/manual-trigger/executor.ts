@@ -26,5 +26,5 @@ export const manualTriggerExecutor: NodeExecutor<ManualTriggerData> = async ({
     }),
   );
 
-  return result;
+  return { context: result, activeHandle: "source-1" };
 };

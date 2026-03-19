@@ -25,5 +25,5 @@ export const webhookTriggerExecutor: NodeExecutor<WebhookTriggerData> = async ({
     }),
   );
 
-  return result;
+  return { context: result, activeHandle: "source-1" };
 };

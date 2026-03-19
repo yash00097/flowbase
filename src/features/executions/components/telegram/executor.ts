@@ -142,7 +142,7 @@ export const telegramExecutor: NodeExecutor<TelegramData> = async ({
       }),
     );
 
-    return result;
+    return { context: result, activeHandle: "source-1" };
   } catch (error) {
     await publish(
       telegramChannel().status({

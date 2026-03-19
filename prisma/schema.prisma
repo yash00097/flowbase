@@ -128,6 +128,7 @@ enum NodeType {
   SLACK
   TELEGRAM
   WEBHOOK_TRIGGER
+  IF
 }
 
 model Node{

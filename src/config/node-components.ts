@@ -11,6 +11,7 @@ import { GoogleFormTriggerNode } from "@/features/triggers/components/google-for
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
 import { webhookTriggerNode } from "@/features/triggers/components/webhook-trigger/node";
+import { IfNode } from "@/features/flow-controls/components/if/node";
 import { NodeType } from "@/generated/prisma";
 import type { NodeTypes } from "@xyflow/react";
 
@@ -28,6 +29,7 @@ export const nodeComponents = {
     [NodeType.SLACK]: SlackNode,
     [NodeType.TELEGRAM]: TelegramNode,
     [NodeType.WEBHOOK_TRIGGER]: webhookTriggerNode,
+    [NodeType.IF]: IfNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeTypes = keyof typeof nodeComponents;

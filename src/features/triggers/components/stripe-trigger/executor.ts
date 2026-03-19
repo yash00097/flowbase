@@ -26,5 +26,5 @@ export const stripeTriggerExecutor: NodeExecutor<StripeTriggerData> = async ({
     }),
   );
 
-  return result;
+  return { context: result, activeHandle: "source-1" };
 };

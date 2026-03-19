@@ -119,8 +119,11 @@ export const openaiExecutor: NodeExecutor<OpenAiData> = async ({
     );
 
     return {
-      ...context,
-      [data.variableName]: { text }
+      context: {
+        ...context,
+        [data.variableName]: { text }
+      },
+      activeHandle: "source-1",
     }
   } catch (error) {
       await publish(

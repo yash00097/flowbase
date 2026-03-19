@@ -120,7 +120,7 @@ export const whatsappExecutor: NodeExecutor<WhatsappData> = async ({
       }),
     );
 
-    return result;
+    return { context: result, activeHandle: "source-1" };
   } catch (error) {
       await publish(
         whatsappChannel().status({

@@ -69,6 +69,12 @@ const executionNodes: NodeTypeOption[] = [
     description: "Make an HTTP request to any API endpoint. Great for integrating with third-party services.",
     icon: GlobeIcon,
   },
+    {
+        type: NodeType.IF,
+        label: "If Logic",
+        description: "Route workflow execution using true and false condition branches.",
+        icon: "/logos/if.svg",
+    },
 ];
 
 const executionNodeGroups: NodeTypeGroup[] = [
