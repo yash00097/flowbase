@@ -129,6 +129,7 @@ enum NodeType {
   TELEGRAM
   WEBHOOK_TRIGGER
   IF
+  GMAIL_TRIGGER
 }
 
 model Node{

@@ -60,6 +60,12 @@ const triggerNodes: NodeTypeOption[] = [
     description: "Runs the flow when a webhook is received.",
     icon: "/logos/webhook.svg",
   },
+  {
+    type: NodeType.GMAIL_TRIGGER,
+    label: "Gmail Trigger",
+    description: "Runs the flow when a Gmail email is received.",
+    icon: "/logos/gmail.svg",
+  },
 ];
 
 const executionNodes: NodeTypeOption[] = [

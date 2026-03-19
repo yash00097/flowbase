@@ -14,6 +14,7 @@ import { webhookTriggerNode } from "@/features/triggers/components/webhook-trigg
 import { IfNode } from "@/features/flow-controls/components/if/node";
 import { NodeType } from "@/generated/prisma";
 import type { NodeTypes } from "@xyflow/react";
+import { GmailTriggerNode } from "@/features/triggers/components/gmail-trigger/node";
 
 export const nodeComponents = {
     [NodeType.INITIAL]: InitialNode,
@@ -30,6 +31,7 @@ export const nodeComponents = {
     [NodeType.TELEGRAM]: TelegramNode,
     [NodeType.WEBHOOK_TRIGGER]: webhookTriggerNode,
     [NodeType.IF]: IfNode,
+    [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeTypes = keyof typeof nodeComponents;
