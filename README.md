@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/yash00097/flowbase@main/public/logos/logo.svg" width="60" height="60" />
+  <img src="https://github.com/yash00097/flowbase/blob/main/public/logos/logo.png?raw=true" width="60" height="60" />
   <span style="font-size: 32px; font-weight: bold; vertical-align: middle;">
     Flowbase
   </span>
