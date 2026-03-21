@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yash00097/flowbase/main/public/logos/logo.svg" width="60" height="60" />
+  <img src="https://cdn.jsdelivr.net/gh/yash00097/flowbase@main/public/logos/logo.svg" width="60" height="60" />
   <span style="font-size: 32px; font-weight: bold; vertical-align: middle;">
     Flowbase
   </span>
@@ -24,7 +24,7 @@ A modern, open-style workflow automation platform — visually compose, execute,
 
 ---
 
-<img src="https://raw.githubusercontent.com/yash00097/flowbase/main/public/editorDemo.png" width="100%" />
+<img src="https://github.com/yash00097/flowbase/blob/main/public/editorDemo.png?raw=true" width="100%" />
 
 </div>
 
