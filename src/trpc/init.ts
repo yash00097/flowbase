@@ -93,24 +93,28 @@ export const workflowCreateProcedure = protectedProcedure.use(
   }
 );
 
-// Procedure for workflow execution — free users limited to 50 executions/month
+// Procedure for workflow execution — free users limited by monthly usage meter.
+// Uses a dedicated ExecutionUsage counter (not a count of Execution rows) so the
+// limit cannot be bypassed by deleting workflows (which cascade-deletes executions).
 export const executeWorkflowProcedure = protectedProcedure.use(
   async ({ ctx, next }) => {
     const isPro = await hasActiveSubscription(ctx.auth.user.id);
 
     if (!isPro) {
       const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
       const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-      const executionCount = await prisma.execution.count({
-        where: {
-          startedAt: { gte: startOfMonth },
-          workflow: { userId: ctx.auth.user.id },
-        },
+      // Atomic increment-then-check. Upsert guarantees one row per (userId, yearMonth);
+      // `increment` is a DB-level atomic op, so concurrent dispatches cannot both pass
+      // the limit by racing on a read-then-write.
+      const usage = await prisma.executionUsage.upsert({
+        where: { userId_yearMonth: { userId: ctx.auth.user.id, yearMonth } },
+        create: { userId: ctx.auth.user.id, yearMonth, count: 1 },
+        update: { count: { increment: 1 } },
       });
 
-      if (executionCount >= FREE_TIER_LIMITS.executionsPerMonth) {
+      if (usage.count > FREE_TIER_LIMITS.executionsPerMonth) {
         const resetDate = startOfNextMonth.toLocaleDateString('en-US', {
           month: 'long',
           day: 'numeric',

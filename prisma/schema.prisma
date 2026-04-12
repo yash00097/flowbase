@@ -26,9 +26,23 @@ model User {
   accounts      Account[]
   workflows     Workflow[]
   credentials   Credential[]
+  executionUsages ExecutionUsage[]
 
   @@unique([email])
   @@map("user")
+}
+
+model ExecutionUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  yearMonth String
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, yearMonth])
+  @@index([userId])
 }
 
 model Session {

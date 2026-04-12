@@ -101,12 +101,15 @@ export const AppSidebar = () => {
                     {!isLoading && !hasActiveSubscription && (
                         <SidebarMenuItem>
                             <SidebarMenuButton
-                                tooltip="Upgrade to Pro"
+                                tooltip="Upgrade your plan"
+                                isActive={pathname.startsWith("/pricing")}
+                                asChild
                                 className="gap-x-4 h-10 px-4"
-                                onClick={()=>authClient.checkout({slug:"pro"})}
                             >
-                                <StarIcon className="size-4 text-purple-900" />
-                                <span>Upgrade to Pro</span>
+                                <Link href="/pricing" prefetch>
+                                    <StarIcon className="size-4 text-purple-900" />
+                                    <span>Upgrade your plan</span>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     )}

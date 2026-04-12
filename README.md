@@ -86,29 +86,29 @@ Free tier with limits on workflows and monthly executions. Upgrade to Pro for un
 
 ```
 ┌───────────────────────────────────────────────────────┐
-│                    Next.js App Router                  │
+│                    Next.js App Router                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌─────────────┐  │
 │  │  Dashboard   │  │    Editor    │  │  API Routes │  │
 │  │  (tRPC UI)   │  │  (ReactFlow) │  │  (Webhooks) │  │
 │  └──────┬───────┘  └──────┬───────┘  └──────┬──────┘  │
-│         │                 │                  │         │
-│  ┌──────▼─────────────────▼──────────────────▼──────┐  │
-│  │                  tRPC Router Layer                │  │
-│  │     workflows · executions · credentials ·       │  │
-│  │              webhooks · auth                     │  │
-│  └──────────────────────┬────────────────────────── ┘  │
-│                         │                              │
-│  ┌──────────────────────▼───────────────────────────┐  │
-│  │                   Prisma ORM                     │  │
-│  │       Workflow · Node · Connection ·             │  │
-│  │      Execution · Credential · WebhookConfig      │  │
-│  └──────────────────────┬───────────────────────────┘  │
-│                         │                              │
-│  ┌──────────────────────▼───────────────────────────┐  │
-│  │              Inngest Job Engine                  │  │
-│  │   Topological Sort → Sequential Node Execution  │  │
-│  │   Real-time Channels → UI Status Streaming      │  │
-│  └──────────────────────────────────────────────────┘  │
+│         │                 │                  │        │
+│  ┌──────▼─────────────────▼──────────────────▼──────┐ │
+│  │                  tRPC Router Layer               │ │
+│  │     workflows · executions · credentials ·       │ │
+│  │              webhooks · auth                     │ │
+│  └──────────────────────┬────────────────────────── ┘ │
+│                         │                             │
+│  ┌──────────────────────▼───────────────────────────┐ │
+│  │                   Prisma ORM                     │ │
+│  │       Workflow · Node · Connection ·             │ │
+│  │      Execution · Credential · WebhookConfig      │ │
+│  └──────────────────────┬───────────────────────────┘ │
+│                         │                             │
+│  ┌──────────────────────▼───────────────────────────┐ │
+│  │              Inngest Job Engine                  │ │
+│  │   Topological Sort → Sequential Node Execution   │ │
+│  │   Real-time Channels → UI Status Streaming       │ │
+│  └──────────────────────────────────────────────────┘ │
 └───────────────────────────────────────────────────────┘
 ```
 
