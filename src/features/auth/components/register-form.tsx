@@ -136,7 +136,7 @@ export function RegisterForm() {
                       height={20}
                       alt="Github"
                     />
-                    "Continue with Github"
+                    Continue with Github
                   </Button>
                   <Button
                     variant="outline"
@@ -151,7 +151,7 @@ export function RegisterForm() {
                       height={20}
                       alt="Google"
                     />
-                    "Continue with Google"
+                    Continue with Google
                   </Button>
                 </div>
                 <div className="grid gap-6">

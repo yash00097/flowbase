@@ -1,4 +1,3 @@
-import { generateSlug } from "random-word-slugs";
 import prisma from "@/lib/db";
 import { createTRPCRouter, protectedProcedure, workflowCreateProcedure, executeWorkflowProcedure } from "@/trpc/init";
 import z from "zod";
@@ -22,11 +21,29 @@ export const workflowsRouter = createTRPCRouter({
             return workflow;
         }),
     create: workflowCreateProcedure
-        .mutation(({ ctx }) => {
+        .mutation(async ({ ctx }) => {
+            const count = await prisma.workflow.count({
+                where: { userId: ctx.auth.user.id },
+            });
+
+            let nextNumber = count + 1;
+            let name = `workflow-${nextNumber}`;
+
+            // Handle collisions (e.g. when a middle workflow was deleted)
+            while (
+                await prisma.workflow.findFirst({
+                    where: { userId: ctx.auth.user.id, name },
+                    select: { id: true },
+                })
+            ) {
+                nextNumber++;
+                name = `workflow-${nextNumber}`;
+            }
+
             return prisma.workflow.create({
                 data: {
                     userId: ctx.auth.user.id,
-                    name: generateSlug(3),
+                    name,
                     nodes: {
                         create: {
                             type: NodeType.INITIAL,
