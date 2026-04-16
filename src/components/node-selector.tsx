@@ -2,8 +2,8 @@
 
 import { createId } from "@paralleldrive/cuid2";
 import { useReactFlow } from "@xyflow/react";
-import { GlobeIcon, MousePointerIcon } from "lucide-react";
-import { useCallback } from "react";
+import { GlobeIcon, MousePointerIcon, SearchIcon } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
     Accordion,
@@ -20,6 +20,7 @@ import {
     SheetTrigger } from "./ui/sheet";
 import { NodeType } from "@/generated/prisma";
 import { Separator } from "./ui/separator";
+import { Input } from "./ui/input";
 
 export type NodeTypeOption = {
   type: NodeType;
@@ -194,6 +195,45 @@ interface NodeSelectorProps {
 
 export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps) {
     const { setNodes, getNodes, screenToFlowPosition } = useReactFlow();
+    const [search, setSearch] = useState("");
+    const q = search.toLowerCase();
+
+    const filteredTriggerNodes = useMemo(
+        () => triggerNodes.filter(n =>
+            n.label.toLowerCase().includes(q) || n.description.toLowerCase().includes(q)
+        ),
+        [q]
+    );
+
+    const filteredFlowControlNodes = useMemo(
+        () => flowControlNodes.filter(n =>
+            n.label.toLowerCase().includes(q) || n.description.toLowerCase().includes(q)
+        ),
+        [q]
+    );
+
+    const filteredExecutionNodes = useMemo(
+        () => executionNodes.filter(n =>
+            n.label.toLowerCase().includes(q) || n.description.toLowerCase().includes(q)
+        ),
+        [q]
+    );
+
+    const filteredExecutionNodeGroups = useMemo(
+        () => executionNodeGroups
+            .map(group => ({
+                ...group,
+                nodes: group.nodes.filter(n =>
+                    n.label.toLowerCase().includes(q) || n.description.toLowerCase().includes(q)
+                ),
+            }))
+            .filter(group =>
+                group.nodes.length > 0 ||
+                group.label.toLowerCase().includes(q) ||
+                group.description.toLowerCase().includes(q)
+            ),
+        [q]
+    );
 
     const handleNodeSelect = useCallback((selection: NodeTypeOption) => {
         // Check if trying to add a manual trigger when one already exists
@@ -244,7 +284,7 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
 
 
     return (
-        <Sheet open={open} onOpenChange={onOpenChange}>
+        <Sheet open={open} onOpenChange={(v) => { if (!v) setSearch(""); onOpenChange(v); }}>
             <SheetTrigger asChild>{children}</SheetTrigger>
 
             <SheetContent
@@ -252,75 +292,99 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
                 className="w-full sm:max-w-md overflow-y-auto"
             >
                 <SheetHeader>
-                <SheetTitle>
-                    What triggers this workflow?
-                </SheetTitle>
-
-                <SheetDescription>
-                    A trigger is a step that starts your workflow.
-                </SheetDescription>
+                    <SheetTitle>Add a node</SheetTitle>
+                    <SheetDescription>
+                        Select a trigger or action node to add to your workflow.
+                    </SheetDescription>
+                    <div className="relative mt-1">
+                        <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            className="bg-background pl-8 shadow-none border-border"
+                            placeholder="Search nodes..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
                 </SheetHeader>
-                <div >
-                    {triggerNodes.map((nodeType) => (
-                        <NodeOptionRow
-                            key={nodeType.type}
-                            nodeType={nodeType}
-                            onSelect={handleNodeSelect}
-                        />
-                    ))}
-                </div>
-                <Separator/>
-                <div >
-                    {flowControlNodes.map((nodeType) => (
-                        <NodeOptionRow
-                            key={nodeType.type}
-                            nodeType={nodeType}
-                            onSelect={handleNodeSelect}
-                        />
-                    ))}
-                </div>
-                <Separator/>
-                <div>
-                    {executionNodes.map((nodeType) => (
-                        <NodeOptionRow
-                            key={nodeType.type}
-                            nodeType={nodeType}
-                            onSelect={handleNodeSelect}
-                        />
-                    ))}
-                    <Accordion type="multiple" className="w-full">
-                        {executionNodeGroups.map((group) => (
-                            <AccordionItem
-                                key={group.value}
-                                value={group.value}
-                                className="border-b-0"
-                            >
-                                <AccordionTrigger className="border-l-2 border-transparent px-4 py-5 hover:border-l-primary hover:bg-muted/40 hover:no-underline">
-                                    <div className="flex flex-col items-start text-left">
-                                        <span className="text-sm font-medium">
-                                            {group.label}
-                                        </span>
-                                        <span className="text-xs font-normal text-muted-foreground">
-                                            {group.description}
-                                        </span>
-                                    </div>
-                                </AccordionTrigger>
-                                <AccordionContent className="pb-0">
-                                    <div className="ml-6 border-l border-border/60">
-                                        {group.nodes.map((nodeType) => (
-                                            <NodeOptionRow
-                                                key={nodeType.type}
-                                                nodeType={nodeType}
-                                                onSelect={handleNodeSelect}
-                                                nested
-                                            />
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
+                {filteredTriggerNodes.length > 0 && (
+                    <div>
+                        {filteredTriggerNodes.map((nodeType) => (
+                            <NodeOptionRow
+                                key={nodeType.type}
+                                nodeType={nodeType}
+                                onSelect={handleNodeSelect}
+                            />
                         ))}
-                    </Accordion>
-                </div>
+                    </div>
+                )}
+                {filteredTriggerNodes.length > 0 && filteredFlowControlNodes.length > 0 && <Separator />}
+                {filteredFlowControlNodes.length > 0 && (
+                    <div>
+                        {filteredFlowControlNodes.map((nodeType) => (
+                            <NodeOptionRow
+                                key={nodeType.type}
+                                nodeType={nodeType}
+                                onSelect={handleNodeSelect}
+                            />
+                        ))}
+                    </div>
+                )}
+                {(filteredFlowControlNodes.length > 0 || filteredTriggerNodes.length > 0) &&
+                    (filteredExecutionNodes.length > 0 || filteredExecutionNodeGroups.length > 0) && (
+                        <Separator />
+                    )}
+                {(filteredExecutionNodes.length > 0 || filteredExecutionNodeGroups.length > 0) && (
+                    <div>
+                        {filteredExecutionNodes.map((nodeType) => (
+                            <NodeOptionRow
+                                key={nodeType.type}
+                                nodeType={nodeType}
+                                onSelect={handleNodeSelect}
+                            />
+                        ))}
+                        <Accordion type="multiple" className="w-full">
+                            {filteredExecutionNodeGroups.map((group) => (
+                                <AccordionItem
+                                    key={group.value}
+                                    value={group.value}
+                                    className="border-b-0"
+                                >
+                                    <AccordionTrigger className="border-l-2 border-transparent px-4 py-5 hover:border-l-primary hover:bg-muted/40 hover:no-underline">
+                                        <div className="flex flex-col items-start text-left">
+                                            <span className="text-sm font-medium">
+                                                {group.label}
+                                            </span>
+                                            <span className="text-xs font-normal text-muted-foreground">
+                                                {group.description}
+                                            </span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pb-0">
+                                        <div className="ml-6 border-l border-border/60">
+                                            {group.nodes.map((nodeType) => (
+                                                <NodeOptionRow
+                                                    key={nodeType.type}
+                                                    nodeType={nodeType}
+                                                    onSelect={handleNodeSelect}
+                                                    nested
+                                                />
+                                            ))}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </div>
+                )}
+                {filteredTriggerNodes.length === 0 &&
+                    filteredFlowControlNodes.length === 0 &&
+                    filteredExecutionNodes.length === 0 &&
+                    filteredExecutionNodeGroups.length === 0 && (
+                        <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
+                            <SearchIcon className="mb-2 size-6 opacity-40" />
+                            <p className="text-sm">No nodes match &quot;{search}&quot;</p>
+                        </div>
+                    )}
             </SheetContent>
         </Sheet>
 

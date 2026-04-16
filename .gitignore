@@ -46,6 +46,6 @@ next-env.d.ts
 .env.sentry-build-plugin
 
 #claude
+CLAUDE.md
 .claude
-.agents
-skills-lock.json
+graphify-out/
