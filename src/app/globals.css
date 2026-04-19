@@ -57,38 +57,38 @@
 }
 
 :root {
-  --background: oklch(0.9730 0.0133 286.1503);
+  --background: oklch(0.973 0.0133 286.1503);
   --foreground: oklch(0.3015 0.0572 282.4176);
-  --card: oklch(1.0000 0 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.3015 0.0572 282.4176);
-  --popover: oklch(1.0000 0 0);
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.3015 0.0572 282.4176);
-  --primary: oklch(0.5417 0.1790 288.0332);
-  --primary-foreground: oklch(1.0000 0 0);
+  --primary: oklch(0.5417 0.179 288.0332);
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.9174 0.0435 292.6901);
   --secondary-foreground: oklch(0.4143 0.1039 288.1742);
-  --muted: oklch(0.9580 0.0133 286.1454);
+  --muted: oklch(0.958 0.0133 286.1454);
   --muted-foreground: oklch(0.5426 0.0465 284.7435);
-  --accent: oklch(0.9221 0.0373 262.1410);
+  --accent: oklch(0.9221 0.0373 262.141);
   --accent-foreground: oklch(0.3015 0.0572 282.4176);
   --destructive: oklch(0.6861 0.2061 14.9941);
-  --destructive-foreground: oklch(1.0000 0 0);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9115 0.0216 285.9625);
   --input: oklch(0.9115 0.0216 285.9625);
-  --ring: oklch(0.5417 0.1790 288.0332);
-  --chart-1: oklch(0.5417 0.1790 288.0332);
-  --chart-2: oklch(0.7042 0.1602 288.9880);
+  --ring: oklch(0.5417 0.179 288.0332);
+  --chart-1: oklch(0.5417 0.179 288.0332);
+  --chart-2: oklch(0.7042 0.1602 288.988);
   --chart-3: oklch(0.5679 0.2113 276.7065);
   --chart-4: oklch(0.6356 0.1922 281.8054);
   --chart-5: oklch(0.4509 0.1758 279.3838);
-  --sidebar: oklch(0.9580 0.0133 286.1454);
+  --sidebar: oklch(0.958 0.0133 286.1454);
   --sidebar-foreground: oklch(0.3015 0.0572 282.4176);
-  --sidebar-primary: oklch(0.5417 0.1790 288.0332);
-  --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.9221 0.0373 262.1410);
+  --sidebar-primary: oklch(0.5417 0.179 288.0332);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.9221 0.0373 262.141);
   --sidebar-accent-foreground: oklch(0.3015 0.0572 282.4176);
   --sidebar-border: oklch(0.9115 0.0216 285.9625);
-  --sidebar-ring: oklch(0.5417 0.1790 288.0332);
+  --sidebar-ring: oklch(0.5417 0.179 288.0332);
   --font-sans: Inter, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: JetBrains Mono, monospace;
@@ -101,12 +101,22 @@
   --shadow-color: hsl(240 30% 25%);
   --shadow-2xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
   --shadow-xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
-  --shadow-sm: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px hsl(240 30% 25% / 0.12);
-  --shadow: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px hsl(240 30% 25% / 0.12);
-  --shadow-md: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 2px 4px -1px hsl(240 30% 25% / 0.12);
-  --shadow-lg: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 4px 6px -1px hsl(240 30% 25% / 0.12);
-  --shadow-xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 8px 10px -1px hsl(240 30% 25% / 0.12);
-  --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.30);
+  --shadow-sm:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-md:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 2px 4px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-lg:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 4px 6px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-xl:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 8px 10px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.3);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -122,12 +132,12 @@
   --primary-foreground: oklch(0.1743 0.0227 283.7998);
   --secondary: oklch(0.3139 0.0736 283.4591);
   --secondary-foreground: oklch(0.8367 0.0849 285.9111);
-  --muted: oklch(0.2710 0.0621 281.4377);
+  --muted: oklch(0.271 0.0621 281.4377);
   --muted-foreground: oklch(0.7166 0.0462 285.1741);
   --accent: oklch(0.3354 0.0828 280.9705);
   --accent-foreground: oklch(0.9185 0.0257 285.8834);
   --destructive: oklch(0.6861 0.2061 14.9941);
-  --destructive-foreground: oklch(1.0000 0 0);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.3261 0.0597 282.5832);
   --input: oklch(0.3261 0.0597 282.5832);
   --ring: oklch(0.7162 0.1597 290.3962);
@@ -156,12 +166,22 @@
   --shadow-color: hsl(240 30% 25%);
   --shadow-2xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
   --shadow-xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
-  --shadow-sm: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px hsl(240 30% 25% / 0.12);
-  --shadow: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px hsl(240 30% 25% / 0.12);
-  --shadow-md: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 2px 4px -1px hsl(240 30% 25% / 0.12);
-  --shadow-lg: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 4px 6px -1px hsl(240 30% 25% / 0.12);
-  --shadow-xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 8px 10px -1px hsl(240 30% 25% / 0.12);
-  --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.30);
+  --shadow-sm:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 1px 2px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-md:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 2px 4px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-lg:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 4px 6px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-xl:
+    0px 4px 10px 0px hsl(240 30% 25% / 0.12), 0px 8px 10px -1px
+    hsl(240 30% 25% / 0.12);
+  --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.3);
 }
 
 @layer base {
@@ -184,4 +204,231 @@
 /* React Flow node selection styles */
 .react-flow__node.selected #base-node {
   @apply ring-3 ring-muted-foreground/25 shadow-lg;
+}
+
+/* ===== Landing page design tokens ===== */
+:root {
+  /* Paper & ink — warm-tinted neutrals that lean toward brand purple */
+  --fb-paper: oklch(0.985 0.004 285);
+  --fb-paper-2: oklch(0.965 0.006 285);
+  --fb-ink: oklch(0.22 0.018 285);
+  --fb-ink-soft: oklch(0.42 0.022 285);
+  --fb-ink-muted: oklch(0.58 0.018 285);
+  --fb-rule: oklch(0.88 0.01 285);
+  --fb-ink-invert: oklch(0.94 0.012 285);
+  --fb-paper-invert: oklch(0.16 0.022 285);
+  --fb-paper-invert-2: oklch(0.21 0.028 285);
+  --fb-rule-invert: oklch(0.32 0.03 285);
+
+  /* Accent — existing brand purple, used as punctuation */
+  --fb-accent: oklch(0.5417 0.179 288);
+  --fb-accent-soft: oklch(0.92 0.04 288);
+  --fb-accent-ink: oklch(0.35 0.13 288);
+
+  /* Semantic status */
+  --fb-live: oklch(0.68 0.16 148);
+  --fb-warn: oklch(0.76 0.14 75);
+
+  /* Fonts */
+  --fb-font-display: "Cirka", ui-serif, Georgia, serif;
+  --fb-font-body:
+    "Switzer", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --fb-font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Easing */
+  --fb-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --fb-ease-in-out: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.dark {
+  --fb-paper: oklch(0.16 0.022 285);
+  --fb-paper-2: oklch(0.21 0.028 285);
+  --fb-ink: oklch(0.94 0.012 285);
+  --fb-ink-soft: oklch(0.76 0.02 285);
+  --fb-ink-muted: oklch(0.58 0.024 285);
+  --fb-rule: oklch(0.32 0.03 285);
+  --fb-ink-invert: oklch(0.22 0.018 285);
+  --fb-paper-invert: oklch(0.985 0.004 285);
+  --fb-paper-invert-2: oklch(0.965 0.006 285);
+  --fb-rule-invert: oklch(0.88 0.01 285);
+  --fb-accent: oklch(0.7162 0.1597 290);
+  --fb-accent-soft: oklch(0.33 0.083 281);
+  --fb-accent-ink: oklch(0.82 0.12 290);
+}
+
+.fb-landing {
+  /* Force dark landing palette regardless of system theme.
+     Purple-tinted neutrals; brand purple lifts for legibility on dark. */
+  --fb-paper: oklch(0.16 0.022 288);
+  --fb-paper-2: oklch(0.205 0.028 288);
+  --fb-ink: oklch(0.965 0.01 288);
+  --fb-ink-soft: oklch(0.78 0.022 288);
+  --fb-ink-muted: oklch(0.6 0.028 288);
+  --fb-rule: oklch(0.32 0.035 288);
+
+  /* Inverted bands flip to light for editorial contrast */
+  --fb-paper-invert: oklch(0.97 0.006 288);
+  --fb-paper-invert-2: oklch(0.93 0.012 288);
+  --fb-ink-invert: oklch(0.22 0.02 288);
+  --fb-rule-invert: oklch(0.72 0.025 288);
+
+  /* Brand purple — use the brighter dark-mode variant so it pops on near-black */
+  --fb-accent: oklch(0.7162 0.1597 290);
+  --fb-accent-soft: oklch(0.33 0.083 288);
+  --fb-accent-ink: oklch(0.82 0.13 290);
+  /* Override green status indicator to purple within landing */
+  --fb-live: oklch(0.7162 0.1597 290);
+
+  background: var(--fb-paper);
+  color: var(--fb-ink);
+  font-family: var(--fb-font-body);
+  font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+}
+
+.fb-landing .fb-display {
+  font-family: var(--fb-font-display);
+  font-feature-settings: "ss01";
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+.fb-landing .fb-mono {
+  font-family: var(--fb-font-mono);
+  font-feature-settings: normal;
+  font-variant-ligatures: none;
+}
+
+.fb-landing .fb-tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reveal-on-scroll pattern */
+.fb-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 700ms var(--fb-ease-out),
+    transform 700ms var(--fb-ease-out);
+  transition-delay: calc(var(--fb-stagger, 0) * 60ms);
+}
+.fb-reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fb-reveal,
+  .fb-reveal[data-visible="true"] {
+    transition: opacity 200ms linear;
+    transform: none;
+  }
+  .fb-edge-flow,
+  .fb-pulse,
+  .fb-marquee {
+    animation: none !important;
+  }
+}
+
+/* Animated edge in hero graph */
+@keyframes fb-edge-flow {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.fb-edge-flow {
+  stroke-dasharray: 4 8;
+  animation: fb-edge-flow 1.4s linear infinite;
+}
+
+@keyframes fb-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+.fb-pulse {
+  animation: fb-pulse 1.6s var(--fb-ease-in-out) infinite;
+  transform-origin: center;
+}
+
+/* Purple grid — crossed lines + accent dots at intersections.
+   Slow drift gives canvas a living feel without distracting.
+   Tuned for dark landing surface; low chroma keeps it from screaming. */
+.fb-grid-bg {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklch, var(--fb-accent) 10%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--fb-accent) 10%, transparent) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in oklch, var(--fb-accent) 45%, transparent) 1.2px,
+      transparent 0
+    );
+  background-size:
+    56px 56px,
+    56px 56px,
+    56px 56px;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+  animation: fb-grid-drift 18s linear infinite;
+  will-change: background-position;
+}
+
+@keyframes fb-grid-drift {
+  0% {
+    background-position:
+      0 0,
+      0 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      56px 56px,
+      56px 56px,
+      56px 56px;
+  }
+}
+
+/* Soft vignette layered over grid so content always has headroom. */
+.fb-grid-vignette {
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 50% 0%,
+      color-mix(in oklch, var(--fb-accent) 8%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 100% 60% at 50% 100%,
+      color-mix(in oklch, var(--fb-paper) 80%, transparent),
+      transparent 55%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fb-grid-bg {
+    animation: none;
+  }
 }
