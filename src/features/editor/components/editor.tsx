@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback, useMemo } from 'react';
+import { useTheme } from 'next-themes';
 import { ReactFlow,
          applyNodeChanges, 
          applyEdgeChanges, 
@@ -58,6 +59,9 @@ export const Editor = ({workflowId}: {workflowId: string}) => {
     return nodes.some(node => node.type === NodeType.MANUAL_TRIGGER);
   }, [nodes]);
 
+  const { resolvedTheme } = useTheme();
+  const colorMode = (resolvedTheme === 'dark' ? 'dark' : 'light') as 'light' | 'dark';
+
   return (
     <div className='size-full'> 
       <ReactFlow
@@ -74,6 +78,7 @@ export const Editor = ({workflowId}: {workflowId: string}) => {
         panOnScroll
         panOnDrag={false}
         selectionOnDrag
+        colorMode={colorMode}
       >
         <Background />
         <Controls />

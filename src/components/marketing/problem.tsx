@@ -11,7 +11,8 @@ export function Problem() {
       <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-26">
         <div className="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-14 lg:gap-20">
           <div ref={refA} className="fb-reveal">
-            <p className="fb-mono mb-6 text-[11.5px] uppercase tracking-[0.18em] text-[color:var(--fb-ink-muted)]">
+            <p className="fb-display mb-6 flex items-center gap-3 text-[15px] italic text-[color:var(--fb-ink-muted)]">
+              <span aria-hidden="true">§</span>
               The shift
             </p>
             <h2 className="fb-display text-[clamp(40px,6vw,76px)] font-[700] leading-[1.02] text-[color:var(--fb-ink)]">

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { SaveIcon } from "lucide-react";
 import {
   Breadcrumb,
@@ -139,7 +140,10 @@ export const EditorHeader = ({workflowId}: {workflowId: string}) => {
             <SidebarTrigger />
             <div className="flex flex-row items-center justify-between gap-x-4 w-full">
                 <EditorBreadcrumbs workflowId={workflowId} />
-                <EditorSaveButton workflowId={workflowId} />
+                <div className="flex items-center gap-2 ml-auto">
+                    <ThemeToggle />
+                    <EditorSaveButton workflowId={workflowId} />
+                </div>
             </div>
         </header>
     );

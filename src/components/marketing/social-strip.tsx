@@ -2,13 +2,13 @@
 
 import { useReveal } from "./use-reveal";
 
-const builtWith = [
-  "Next.js",
-  "Inngest",
-  "Prisma",
-  "PostgreSQL",
-  "tRPC",
-  "React Flow",
+const builtWith: Array<{ name: string; href: string }> = [
+  { name: "Next.js", href: "https://nextjs.org/" },
+  { name: "Inngest", href: "https://www.inngest.com/" },
+  { name: "Neon", href: "https://neon.com/" },
+  { name: "Shadcn UI", href: "https://ui.shadcn.com/" },
+  { name: "tRPC", href: "https://trpc.io/" },
+  { name: "React Flow", href: "https://reactflow.dev/" },
 ];
 
 export function SocialStrip() {
@@ -23,12 +23,16 @@ export function SocialStrip() {
           Built with
         </p>
         <ul className="flex flex-wrap items-center gap-x-10 gap-y-4">
-          {builtWith.map((name) => (
-            <li
-              key={name}
-              className="fb-display text-[18px] font-[500] text-[color:var(--fb-ink-soft)] transition-colors hover:text-[color:var(--fb-ink)] hover:cursor-pointer"
-            >
-              {name}
+          {builtWith.map((item) => (
+            <li key={item.name}>
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="fb-display cursor-pointer text-[18px] font-[500] text-[color:var(--fb-ink-soft)] transition-colors hover:text-[color:var(--fb-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--fb-accent)]"
+              >
+                {item.name}
+              </a>
             </li>
           ))}
         </ul>

@@ -17,7 +17,7 @@ type Capability = {
   body: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
   span: "lg" | "md" | "sm";
-  visual?: "flow" | "code" | "chart" | "shield";
+  visual?: "flow" | "code" | "log";
 };
 
 const capabilities: Capability[] = [
@@ -35,7 +35,6 @@ const capabilities: Capability[] = [
     body: "Topological execution. Retries, step memoization, and replay — without you writing a scheduler.",
     icon: GitBranch,
     span: "sm",
-    visual: "chart",
   },
   {
     label: "Observability",
@@ -43,7 +42,7 @@ const capabilities: Capability[] = [
     body: "Every node publishes realtime status. Timing, payloads, errors — streamed into the editor as it runs.",
     icon: LineChart,
     span: "md",
-    visual: "chart",
+    visual: "log",
   },
   {
     label: "Triggers",
@@ -66,7 +65,6 @@ const capabilities: Capability[] = [
     body: "AES via Cryptr. Scoped per user, selected per node. Never expose secrets to the browser.",
     icon: ShieldCheck,
     span: "sm",
-    visual: "shield",
   },
 ];
 
@@ -76,7 +74,9 @@ export function Capabilities() {
       <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-26">
         <div className="mb-10 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="fb-mono mb-5 text-[11.5px] uppercase tracking-[0.18em] text-[color:var(--fb-ink-muted)]">
+            <p className="fb-mono mb-5 flex items-center gap-3 text-[12px] text-[color:var(--fb-ink-muted)]">
+              <span className="fb-tnum">02</span>
+              <span aria-hidden="true" className="h-px w-6 bg-[color:var(--fb-rule)]" />
               Capabilities
             </p>
             <h2 className="fb-display max-w-[18ch] text-[clamp(38px,5.5vw,64px)] font-[700] leading-[1.02] text-[color:var(--fb-ink)]">
@@ -215,46 +215,41 @@ function CapabilityVisual({
       </pre>
     );
   }
-  if (kind === "chart") {
+  if (kind === "log") {
+    const rows: Array<{
+      t: string;
+      node: string;
+      status: "ok" | "run" | "retry";
+      ms: string;
+    }> = [
+      { t: "14:02:11.204", node: "trigger", status: "ok", ms: "8ms" },
+      { t: "14:02:11.212", node: "ai.intent", status: "ok", ms: "612ms" },
+      { t: "14:02:11.824", node: "branch", status: "ok", ms: "2ms" },
+      { t: "14:02:11.827", node: "slack.send", status: "run", ms: "—" },
+    ];
+    const dot = {
+      ok: "var(--fb-live)",
+      run: "var(--fb-accent)",
+      retry: "oklch(0.72 0.17 55)",
+    };
     return (
-      <svg
-        viewBox="0 0 520 80"
-        className="h-auto w-full text-[color:var(--fb-ink-soft)]"
+      <pre
+        className="fb-mono overflow-hidden rounded-[10px] border border-[color:var(--fb-rule)] bg-[color:var(--fb-paper)] p-4 text-[12px] leading-[1.7] text-[color:var(--fb-ink-soft)]"
         aria-hidden="true"
       >
-        <title>Execution volume chart</title>
-        <g fill="var(--fb-accent)" opacity={0.85}>
-          {[
-            { x: 4, h: 12 },
-            { x: 32, h: 34 },
-            { x: 60, h: 18 },
-            { x: 88, h: 46 },
-            { x: 116, h: 22 },
-            { x: 144, h: 56 },
-            { x: 172, h: 28 },
-            { x: 200, h: 64 },
-            { x: 228, h: 30 },
-            { x: 256, h: 72 },
-            { x: 284, h: 36 },
-            { x: 312, h: 58 },
-            { x: 340, h: 44 },
-            { x: 368, h: 68 },
-            { x: 396, h: 38 },
-            { x: 424, h: 52 },
-            { x: 452, h: 46 },
-            { x: 480, h: 60 },
-          ].map((b) => (
-            <rect
-              key={`bar-${b.x}`}
-              x={b.x}
-              y={80 - b.h}
-              width={20}
-              height={b.h}
-              rx={3}
+        {rows.map((r) => (
+          <div key={r.node} className="flex items-center gap-3">
+            <span className="text-[color:var(--fb-ink-muted)]">{r.t}</span>
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: dot[r.status] }}
             />
-          ))}
-        </g>
-      </svg>
+            <span className="text-[color:var(--fb-ink)]">{r.node}</span>
+            <span className="text-[color:var(--fb-ink-muted)]">{r.ms}</span>
+          </div>
+        ))}
+      </pre>
     );
   }
   return null;

@@ -330,8 +330,20 @@
   }
   .fb-edge-flow,
   .fb-pulse,
-  .fb-marquee {
+  .fb-marquee,
+  .fb-run-state,
+  .fb-run-dot {
     animation: none !important;
+  }
+  .fb-run-state-c {
+    opacity: 1 !important;
+  }
+  .fb-run-state-a,
+  .fb-run-state-b {
+    opacity: 0 !important;
+  }
+  .fb-run-dot {
+    fill: oklch(0.68 0.16 148) !important;
   }
 }
 
@@ -363,6 +375,44 @@
 .fb-pulse {
   animation: fb-pulse 1.6s var(--fb-ease-in-out) infinite;
   transform-origin: center;
+}
+
+/* Fake live run cycle on hero status pill.
+   3 states over 4.8s: queued → running → success, then loop. */
+@keyframes fb-run-state-a {
+  0%, 28% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+@keyframes fb-run-state-b {
+  0%, 28% { opacity: 0; }
+  33%, 65% { opacity: 1; }
+  70%, 100% { opacity: 0; }
+}
+@keyframes fb-run-state-c {
+  0%, 65% { opacity: 0; }
+  70%, 95% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fb-run-dot {
+  0%, 28% { fill: oklch(0.55 0.02 285); }
+  33%, 65% { fill: oklch(0.7162 0.1597 290); }
+  70%, 95% { fill: oklch(0.68 0.16 148); }
+  100% { fill: oklch(0.55 0.02 285); }
+}
+.fb-run-state {
+  opacity: 0;
+}
+.fb-run-state-a {
+  animation: fb-run-state-a 4.8s var(--fb-ease-in-out) infinite;
+}
+.fb-run-state-b {
+  animation: fb-run-state-b 4.8s var(--fb-ease-in-out) infinite;
+}
+.fb-run-state-c {
+  animation: fb-run-state-c 4.8s var(--fb-ease-in-out) infinite;
+}
+.fb-run-dot {
+  animation: fb-run-dot 4.8s var(--fb-ease-in-out) infinite;
 }
 
 /* Purple grid — crossed lines + accent dots at intersections.

@@ -4,6 +4,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { authClient } from "@/lib/auth-client";
 import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription";
 import { UserIcon } from "lucide-react";
@@ -23,7 +24,9 @@ export const AppHeader = () => {
     return (
         <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b px-4 bg-background">
             <SidebarTrigger />
-            {user && (
+            <div className="flex items-center gap-2">
+                <ThemeToggle />
+                {user && (
                 <Popover>
                     <PopoverTrigger asChild>
                         <button className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -69,7 +72,8 @@ export const AppHeader = () => {
                         </div>
                     </PopoverContent>
                 </Popover>
-            )}
+                )}
+            </div>
         </header>
     );
 }

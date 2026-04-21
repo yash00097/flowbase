@@ -54,7 +54,7 @@ export function Hero() {
               style={{ "--fb-stagger": 4 } as CSSProperties}
             >
               <Link
-                href="/sign-up"
+                href="/signup"
                 className="group inline-flex h-12 items-center gap-2 rounded-full bg-[color:var(--fb-accent)] px-6 text-[15px] font-[500] text-[color:var(--fb-paper)] transition-transform duration-200 ease-[var(--fb-ease-out)] hover:-translate-y-[2px] active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[color:var(--fb-accent)]"
               >
                 Try Flowbase
@@ -332,27 +332,30 @@ function HeroGraph() {
           <circle cx={325} cy={420} r={3.5} fill="oklch(0.55 0.02 285)" />
         </g>
 
-        {/* Status pill (green dot removed) */}
-        <g transform="translate(24, 548)">
+        {/* Status pill — fake live run cycle */}
+        <g transform="translate(24, 548)" className="fb-run-pill">
           <rect
             x={0}
             y={0}
             rx={999}
             ry={999}
-            width={170}
+            width={180}
             height={28}
             fill="oklch(0.17 0.015 285)"
             stroke="oklch(0.32 0.02 285)"
           />
-          <text
-            x={12}
-            y={18}
-            fontFamily="var(--fb-font-mono)"
-            fontSize={10}
-            fill="oklch(0.78 0.02 285)"
-          >
-            run · 142ms · success
-          </text>
+          <circle cx={14} cy={14} r={3.5} className="fb-run-dot" />
+          <g fontFamily="var(--fb-font-mono)" fontSize={10} fill="oklch(0.78 0.02 285)">
+            <text x={26} y={18} className="fb-run-state fb-run-state-a">
+              run · queued
+            </text>
+            <text x={26} y={18} className="fb-run-state fb-run-state-b">
+              run · ai.intent · 612ms
+            </text>
+            <text x={26} y={18} className="fb-run-state fb-run-state-c">
+              run · 814ms · success
+            </text>
+          </g>
         </g>
       </svg>
     </div>

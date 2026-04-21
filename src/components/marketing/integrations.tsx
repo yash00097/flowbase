@@ -24,7 +24,8 @@ export function Integrations() {
       <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-26">
         <div className="mb-10 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="fb-mono mb-5 text-[11.5px] uppercase tracking-[0.18em] text-[color:var(--fb-ink-muted)]">
+            <p className="fb-display mb-5 flex items-baseline gap-3 text-[15px] italic text-[color:var(--fb-ink-muted)]">
+              <span aria-hidden="true" className="not-italic text-[color:var(--fb-accent-ink)]">✦</span>
               Integrations
             </p>
             <h2 className="fb-display max-w-[20ch] text-[clamp(38px,5.5vw,64px)] font-[700] leading-[1.02] text-[color:var(--fb-ink)]">

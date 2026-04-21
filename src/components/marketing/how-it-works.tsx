@@ -28,7 +28,8 @@ export function HowItWorks() {
       className="relative"
     >
       <div className="mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-26">
-        <p className="fb-mono mb-5 text-[11.5px] uppercase tracking-[0.18em] text-[color:var(--fb-ink-muted)]">
+        <p className="fb-display mb-5 flex items-center gap-4 text-[14px] font-[500] tracking-[0.02em] text-[color:var(--fb-ink-muted)]">
+          <span aria-hidden="true" className="h-px w-10 bg-[color:var(--fb-ink-muted)]/60" />
           How it works
         </p>
         <h2 className="fb-display max-w-[20ch] text-[clamp(38px,5.5vw,64px)] font-[700] leading-[1.02] text-[color:var(--fb-ink)]">
