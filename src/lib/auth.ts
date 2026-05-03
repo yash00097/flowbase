@@ -2,6 +2,7 @@ import { checkout, polar, portal } from "@polar-sh/better-auth";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./db";
+import { sendWelcomeEmail } from "./email";
 import { polarClient } from "./polar";
 
 const trustedOrigins = [
@@ -29,6 +30,15 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await sendWelcomeEmail(user.email, user.name ?? user.email.split("@")[0]);
+        },
+      },
     },
   },
   plugins: [
