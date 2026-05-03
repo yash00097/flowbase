@@ -1,4 +1,4 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -12,14 +12,22 @@ export const sendEmail = async ({
   html: string;
 }) => {
   return resend.emails.send({
-    from: 'Flowbase <noreply@flow-base.dev>',
+    from: "Flowbase <noreply@flow-base.dev>",
     to,
     subject,
     html,
   });
 };
 
+const escapeHtml = (s: string) =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
 export const sendWelcomeEmail = async (to: string, name: string) => {
+  const safeName = escapeHtml(name);
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +60,7 @@ export const sendWelcomeEmail = async (to: string, name: string) => {
           <tr>
             <td style="padding:40px 48px;">
               <h1 style="margin:0 0 8px;font-size:28px;font-weight:700;color:#fafafa;letter-spacing:-0.5px;">
-                Hey ${name}, you're in. 🚀
+                Hey ${safeName}, you're in. 🚀
               </h1>
               <p style="margin:0 0 24px;font-size:16px;color:#a1a1aa;line-height:1.6;">
                 Welcome to Flowbase — the visual workflow builder built for developers who
