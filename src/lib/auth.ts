@@ -36,7 +36,11 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          await sendWelcomeEmail(user.email, user.name ?? user.email.split("@")[0]);
+          try {
+            await sendWelcomeEmail(user.email, user.name ?? user.email.split("@")[0]);
+          } catch (error) {
+            console.error("Welcome email send failed:", error);
+          }
         },
       },
     },
