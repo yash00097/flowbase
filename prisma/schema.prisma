@@ -228,3 +228,14 @@ model Execution {
   workflowId String
   workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@map("password_reset_token")
+}
