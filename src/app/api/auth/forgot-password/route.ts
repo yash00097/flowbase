@@ -2,7 +2,7 @@ import { createHash, randomInt } from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/db";
-import { sendOtpEmail } from "@/lib/email";
+import { sendForgotOtpEmail } from "@/lib/email";
 
 const schema = z.object({ email: z.email() });
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  await sendOtpEmail(email, otp);
+  await sendForgotOtpEmail(email, otp);
 
   return NextResponse.json({ ok: true });
 }

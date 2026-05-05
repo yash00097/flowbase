@@ -239,3 +239,15 @@ model PasswordResetToken {
   @@index([email])
   @@map("password_reset_token")
 }
+
+model SignupOtpToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@map("signup_otp_token")
+}
