@@ -191,7 +191,7 @@ export const executeWorkflow = inngest.createFunction(
       }
     }
 
-    const updated = await step.run("update-execution", async () => {
+    await step.run("update-execution", async () => {
       return prisma.execution.update({
         where: { inngestEventId, workflowId },
         data: {
@@ -199,40 +199,7 @@ export const executeWorkflow = inngest.createFunction(
           completedAt: new Date(),
           output: context,
         },
-        include: {
-          workflow: {
-            include: { user: { select: { email: true } } },
-          },
-        },
       });
-    });
-
-    await step.run("notify-completion", async () => {
-      const startedAt = new Date(updated.startedAt);
-      const completedAt = updated.completedAt
-        ? new Date(updated.completedAt)
-        : null;
-      const durationSeconds = completedAt
-        ? Math.round((completedAt.getTime() - startedAt.getTime()) / 1000)
-        : null;
-
-      // Email infra failures must not flip execution status to FAILED via onFailure.
-      try {
-        await sendExecutionEmail({
-          to: updated.workflow.user.email,
-          workflowName: updated.workflow.name,
-          workflowId: updated.workflowId,
-          executionId: updated.id,
-          status: "SUCCESS",
-          startedAt,
-          completedAt,
-          durationSeconds,
-          eventId: updated.inngestEventId,
-          output: updated.output,
-        });
-      } catch (err) {
-        console.error("notify-completion failed (non-fatal)", err);
-      }
     });
 
     return { workflowId, result: context };
