@@ -18,6 +18,7 @@ import { telegramChannel } from "./channels/telegram";
 import { webhookTriggerChannel } from "./channels/webhook-trigger";
 import { ifChannel } from "./channels/if";
 import { gmailTriggerChannel } from "./channels/gmail-trigger";
+import { sendExecutionEmail } from "@/lib/email";
 
 
 export const executeWorkflow = inngest.createFunction(
@@ -25,14 +26,54 @@ export const executeWorkflow = inngest.createFunction(
     id: "execute-workflow",
     retries: process.env.NODE_ENV === "production" ? 3 : 0,
     onFailure: async ({ event, step }) => {
-      return prisma.execution.update({
-        where: { inngestEventId: event.data.event.id },
-        data: {
-          status: ExecutionStatus.FAILED,
-          error: event.data.error.message,
-          errorStack: event.data.error.stack,
-        },
+      const failed = await step.run("update-execution-failed", async () => {
+        return prisma.execution.update({
+          where: { inngestEventId: event.data.event.id },
+          data: {
+            status: ExecutionStatus.FAILED,
+            completedAt: new Date(),
+            error: event.data.error.message,
+            errorStack: event.data.error.stack,
+          },
+          include: {
+            workflow: {
+              include: { user: { select: { email: true } } },
+            },
+          },
+        });
       });
+
+      await step.run("notify-failure", async () => {
+        const startedAt = new Date(failed.startedAt);
+        const completedAt = failed.completedAt
+          ? new Date(failed.completedAt)
+          : null;
+        const durationSeconds = completedAt
+          ? Math.round((completedAt.getTime() - startedAt.getTime()) / 1000)
+          : null;
+
+        // Email infra failure must not propagate (onFailure should always settle).
+        try {
+          await sendExecutionEmail({
+            to: failed.workflow.user.email,
+            workflowName: failed.workflow.name,
+            workflowId: failed.workflowId,
+            executionId: failed.id,
+            status: "FAILED",
+            startedAt,
+            completedAt,
+            durationSeconds,
+            eventId: failed.inngestEventId,
+            error: failed.error,
+            errorStack: failed.errorStack,
+            output: failed.output,
+          });
+        } catch (err) {
+          console.error("notify-failure failed (non-fatal)", err);
+        }
+      });
+
+      return failed;
     },
   },
   {
@@ -150,7 +191,7 @@ export const executeWorkflow = inngest.createFunction(
       }
     }
 
-    await step.run("update-execution", async () => {
+    const updated = await step.run("update-execution", async () => {
       return prisma.execution.update({
         where: { inngestEventId, workflowId },
         data: {
@@ -158,7 +199,40 @@ export const executeWorkflow = inngest.createFunction(
           completedAt: new Date(),
           output: context,
         },
+        include: {
+          workflow: {
+            include: { user: { select: { email: true } } },
+          },
+        },
       });
+    });
+
+    await step.run("notify-completion", async () => {
+      const startedAt = new Date(updated.startedAt);
+      const completedAt = updated.completedAt
+        ? new Date(updated.completedAt)
+        : null;
+      const durationSeconds = completedAt
+        ? Math.round((completedAt.getTime() - startedAt.getTime()) / 1000)
+        : null;
+
+      // Email infra failures must not flip execution status to FAILED via onFailure.
+      try {
+        await sendExecutionEmail({
+          to: updated.workflow.user.email,
+          workflowName: updated.workflow.name,
+          workflowId: updated.workflowId,
+          executionId: updated.id,
+          status: "SUCCESS",
+          startedAt,
+          completedAt,
+          durationSeconds,
+          eventId: updated.inngestEventId,
+          output: updated.output,
+        });
+      } catch (err) {
+        console.error("notify-completion failed (non-fatal)", err);
+      }
     });
 
     return { workflowId, result: context };
